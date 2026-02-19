@@ -3,9 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Happy Birthday Shalini | Ultimate Cake</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Poppins:wght@900&family=Dancing+Script:wght@700&display=swap');
+
+        body, html {
+            background-color: #000;
+            margin: 0;
+            overflow: hidden;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Fira Code', monospace;
+        }
+
+        #terminal {
+            width: 70%;
+            max-width: 650px;
+            font-size: 16px;
+            color: #c9d1d9;
+            z-index: 10;
+        }
+
+        .keyword { color: #ff7b72; }
+        .function { color: #d2a8ff; }
+        .string { color: #a5d6ff; }
+        .comment { color: #8b949e; }
+
+        #surprise {
+            display: none;
+            position: absolute;
+            text-align: center;
+            z-index: 100;
+            width: 100%;
+        }
+
+        /* ===== ADVANCED 3D DRIP CAKE ===== */
+        .cake {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            perspective: 1000px;
+        }
+
+        .layer {
+            background: linear-gradient(to right, #2c1a0f, #4d2b19, #2c1a0f);
+            border-radius: 10px / 20px;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.8);
+            border: 1px solid #3d2b1f;
+        }
+
+        .drip {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 40px;
+            background: #ffffff;
+            border-radius: 10px 10px 0 0;
+            z-index: 10;
+            clip-path: url(#drip-clip);
+        }
+
+        .layer::after {
+            content: "• . • . •";
+            position: absolute;
+            bottom: 15px;
+            width: 100%;
+            color: gold;
+            font-size: 12px;
+            letter-spacing: 15px;
+            opacity: 0.6;
+        }
+
+        .layer-1 { width: 320px; height: 100px; z-index: 1; }
+        .layer-2 { width: 240px; height: 80px; z-index: 2; margin-top: -15px; }
+        .layer-3 { width: 160px; height: 70px; z-index: 3; margin-top: -15px; }
+
+        .candles {
+            position: absolute;
+            top: -45px;
+            display: flex;
+            gap: 12px;
+            z-index: 20;
+        }
+        
+        .candle {
+            width: 8px; height: 45px;
+            background: repeating-linear-gradient(45deg, #ff0055, #ff0055 5px, #fff 5px, #fff 10px);
+            border-radius: 4px;
+            position: relative;
+        }
+
+        .flame {
+            width: 12px; height: 20px;
+            background: orange;
+            border-radius: 50% 50% 20% 20%;
+            position: absolute; top: -22px; left: -2px;
+            box-shadow: 0 0 20px #ffcc00, 0 0 40px #ff6600;
+            animation: flicker 0.1s infinite alternate;
+        }
+
+        @keyframes flicker { from { transform: scale(1) rotate(-2deg); } to { transform: scale(1.1) rotate(2deg); } }
+
+        h1 { 
+            font-family: 'Dancing Script', cursive;
+            font-size: 4rem; 
+            color: #fff; 
+            margin: 10px 0 0 0;
+            text-shadow: 0 0 20px #fff, 0 0 30px #58a6ff;
+        }
+
+        .name-highlight {
+            font-family: 'Poppins', sans-serif;
+            color: #58a6ff;
+            font-size: 5rem;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            margin-top: -10px;
+        }
+
+        canvas {
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 1; pointer-events: none;
+        }
+
+        .svg-defs { position: absolute; width: 0; height: 0; }
+    </style>
 </head>
 <body>
-    
+
+    <svg class="svg-defs">
+        <defs>
+            <clipPath id="drip-clip" clipPathUnits="objectBoundingBox">
+                <path d="M0,0 L1,0 L1,0.4 C0.95,0.6 0.9,0.3 0.85,0.7 C0.8,0.9 0.75,0.5 0.7,0.8 C0.65,1 0.6,0.6 0.55,0.9 C0.5,0.7 0.45,1 0.4,0.8 C0.35,0.6 0.3,0.9 0.25,0.7 C0.2,0.4 0.15,0.8 0.1,0.5 C0.05,0.3 0,0.6 0,0.4 Z" />
+            </clipPath>
+        </defs>
+    </svg>
+
+    <div id="terminal"></div>
+    <canvas id="fireworks"></canvas>
+
+    <div id="surprise">
+        <div class="cake">
+            <div class="candles">
+                <div class="candle"><div class="flame"></div></div>
+                <div class="candle"><div class="flame"></div></div>
+                <div class="candle"><div class="flame"></div></div>
+                <div class="candle"><div class="flame"></div></div>
+                <div class="candle"><div class="flame"></div></div>
+            </div>
+            
+            <div class="layer layer-3"><div class="drip"></div></div>
+            <div class="layer layer-2"><div class="drip"></div></div>
+            <div class="layer layer-1"><div class="drip"></div></div>
+        </div>
+        <h1>Happy Birthday</h1>
+        <span class="name-highlight">Shalini</span>
+    </div>
+
+    <script>
+        const code = `
+<span class="comment">// Initializing Premium Cake...</span>
+<span class="keyword">const</span> celebrate = {
+    name: <span class="string">'Shalini'</span>,
+    cakeType: <span class="string">'Triple_Layer_Chocolate_Drip'</span>,
+    fireworks: <span class="keyword">true</span>
+};
+
+<span class="comment">// Loading sparkles...</span>
+<span class="function">launchGrandSurprise</span>();`;
+
+        const terminal = document.getElementById('terminal');
+        let i = 0;
+
+        function type() {
+            if (i < code.length) {
+                if (code.substring(i, i + 1) === '<') {
+                    let endTag = code.indexOf('>', i);
+                    terminal.innerHTML += code.substring(i, endTag + 1);
+                    i = endTag + 1;
+                } else {
+                    terminal.innerHTML += code.charAt(i);
+                    i++;
+                }
+                setTimeout(type, 25);
+            } else {
+                setTimeout(revealSurprise, 1000);
+            }
+        }
+
+        function revealSurprise() {
+            terminal.style.transition = 'all 0.8s ease-out';
+            terminal.style.transform = 'scale(0.5)';
+            terminal.style.opacity = '0';
+            setTimeout(() => {
+                terminal.style.display = 'none';
+                document.getElementById('surprise').style.display = 'block';
+                startFireworks();
+            }, 600);
+        }
+
+        const canvas = document.getElementById('fireworks');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        const colors = ['#58a6ff', '#ffffff', '#ff7b72', '#d2a8ff', '#ffd700'];
+
+        function createFirework() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * (canvas.height / 2);
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            // Particles count high for dense effect, but individual size is small
+            for (let i = 0; i < 100; i++) {
+                particles.push({
+                    x, y,
+                    vx: (Math.random() - 0.5) * 15, 
+                    vy: (Math.random() - 0.5) * 15,
+                    color: color,
+                    alpha: 1,
+                    size: Math.random() * 2 + 1 // SMALL SIZE: 1 to 3 pixels
+                });
+            }
+        }
+
+        function startFireworks() {
+            setInterval(createFirework, 500);
+            function update() {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.2)'; 
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                particles.forEach((p, index) => {
+                    p.x += p.vx; 
+                    p.y += p.vy; 
+                    p.vy += 0.05; 
+                    p.alpha -= 0.01;
+                    
+                    if (p.alpha <= 0) {
+                        particles.splice(index, 1);
+                    } else {
+                        ctx.save();
+                        ctx.globalAlpha = p.alpha;
+                        ctx.fillStyle = p.color;
+                        ctx.shadowBlur = 8; // Subtle glow
+                        ctx.shadowColor = p.color;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    }
+                });
+                requestAnimationFrame(update);
+            }
+            update();
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        window.onload = type;
+    </script>
 </body>
 </html>
